@@ -4,6 +4,7 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"text/template"
 
 	"github.com/labstack/echo/v4"
 )
@@ -13,12 +14,26 @@ type User struct {
 	Email string `json:"email" xml:"email" form:"email" query:"email"`
 }
 
+type Template struct {
+	templates *template.Template
+}
+
+func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+	return t.templates.ExecuteTemplate(w, name, data)
+}
+
 func main() {
 	e := echo.New()
+	t := &Template{
+		templates: template.Must(template.ParseGlob("public/views/*.html")),
+	}
+
+	e.Renderer = t
 
 	e.GET("/", func(c echo.Context) error {
 		return c.String(http.StatusOK, "Hello World!")
 	})
+	e.GET("/hello", Hello)
 
 	//e.POST("/users", saveUser)
 	e.GET("/users/:id", getUser)
@@ -39,7 +54,11 @@ func main() {
 
 	e.Static("/static", "static")
 
-	e.Logger.Fatal(e.Start(":1323"))
+	e.Logger.Fatal(e.Start(":50259"))
+}
+
+func Hello(c echo.Context) error {
+	return c.Render(http.StatusOK, "hello", "Woooooorld")
 }
 
 func getUser(c echo.Context) error {
