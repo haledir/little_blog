@@ -19,6 +19,11 @@ type Template struct {
 }
 
 func (t *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
+
+	if viewContext, isMap := data.(map[string]interface{}); isMap {
+		viewContext["reverse"] = c.Echo().Reverse
+	}
+
 	return t.templates.ExecuteTemplate(w, name, data)
 }
 
@@ -34,6 +39,8 @@ func main() {
 		return c.String(http.StatusOK, "Hello World!")
 	})
 	e.GET("/hello", Hello)
+
+	e.GET("/something", something).Name = "foobar"
 
 	//e.POST("/users", saveUser)
 	e.GET("/users/:id", getUser)
@@ -55,6 +62,12 @@ func main() {
 	e.Static("/static", "static")
 
 	e.Logger.Fatal(e.Start(":50259"))
+}
+
+func something(c echo.Context) error {
+	return c.Render(http.StatusOK, "reverse.html", map[string]interface{}{
+		"name": "Dobby!",
+	})
 }
 
 func Hello(c echo.Context) error {
