@@ -1,0 +1,23 @@
+{{ define "index.html" }}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>{{ index . "name" }}</title>
+</head>
+
+<body>
+    <header>
+        <ul>
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Recipes</a></li>
+            <li><a href="#">About</a></li>
+        </ul>
+    </header>
+
+    {{ index . "msg" }}
+
+</body>
+
+</html>
+{{ end }}
