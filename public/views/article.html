@@ -1,0 +1,8 @@
+{{ template "core" . }}
+
+<body>
+    <h1>{{ .Title }}</h1>
+    <div>{{ .Content | safeHTML }}</div>
+</body>
+
+</html>

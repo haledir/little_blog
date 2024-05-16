@@ -1,23 +1,12 @@
-{{ define "index.html" }}
-<!DOCTYPE html>
-<html>
-
-<head>
-    <title>{{ index . "name" }}</title>
-</head>
+{{ template "core" . }}
 
 <body>
-    <header>
-        <ul>
-            <li><a href="#">Home</a></li>
-            <li><a href="#">Recipes</a></li>
-            <li><a href="#">About</a></li>
-        </ul>
-    </header>
-
-    {{ index . "msg" }}
-
+    <h1>{{ .Title }}</h1>
+    <ul>
+        {{ range .Articles }}
+        <li><a href="/article/{{ .ID }}">{{ .Title }}</a></li>
+        {{ end }}
+    </ul>
 </body>
 
 </html>
-{{ end }}

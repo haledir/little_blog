@@ -1,6 +1,7 @@
 /tmp
 
 *.exe
+*.db
 *.exe~
 *.dll
 *.so
