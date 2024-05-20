@@ -21,7 +21,11 @@ func main() {
 	defer database.Close()
 
 	articleService := &services.ArticleService{DB: database}
+	authService := &services.AuthService{DB: database}
+
 	articleHander := &handlers.ArticleHandler{ArticleService: articleService}
+	authHandler := &handlers.AuthHandler{AuthService: authService}
+	welcomeHandler := &handlers.WelcomeHander{}
 
 	e := echo.New()
 
@@ -39,6 +43,9 @@ func main() {
 
 	e.GET("/", articleHander.HandleIndex)
 	e.GET("/article/:id", articleHander.HandleArticle)
+	e.GET("/login", authHandler.HandleLogin)
+	e.POST("/login", authHandler.HandleLoginSubmit)
+	e.GET("/welcome", welcomeHandler.HandleWelcome)
 
 	e.Static("/static", "static")
 
