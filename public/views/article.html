@@ -1,8 +1,7 @@
 {{ template "core" . }}
+{{ template "header" . }}
 
-<body>
-    <h1>{{ .Title }}</h1>
-    <div>{{ .Content | safeHTML }}</div>
-</body>
+<h1>{{ .Title }}</h1>
+<div>{{ .Content | safeHTML }}</div>
 
-</html>
+{{ template "footer" . }}

@@ -1,12 +1,11 @@
 {{ template "core" . }}
+{{ template "header" . }}
 
-<body>
-    <h1>{{ .Title }}</h1>
-    <ul>
-        {{ range .Articles }}
-        <li><a href="/article/{{ .ID }}">{{ .Title }}</a></li>
-        {{ end }}
-    </ul>
-</body>
+<h1>{{ .Title }}</h1>
+<ul>
+    {{ range .Articles }}
+    <li><a href="/article/{{ .ID }}">{{ .Title }}</a></li>
+    {{ end }}
+</ul>
 
-</html>
+{{ template "footer" . }}
