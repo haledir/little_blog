@@ -41,10 +41,15 @@ func main() {
 
 	e.Renderer = t
 
+	e.HTTPErrorHandler = handlers.CustomHTTPErrorHandler
+
 	e.GET("/", articleHander.HandleIndex)
 	e.GET("/article/:id", articleHander.HandleArticle)
+
 	e.GET("/login", authHandler.HandleLogin)
 	e.POST("/login", authHandler.HandleLoginSubmit)
+	e.GET("/logout", authHandler.HandleLogout)
+
 	e.GET("/welcome", welcomeHandler.HandleWelcome)
 
 	e.Static("/static", "static")
