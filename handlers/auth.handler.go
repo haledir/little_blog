@@ -35,7 +35,7 @@ func (h *AuthHandler) HandleLoginSubmit(c echo.Context) error {
 		return err
 	}
 
-	return c.Redirect(http.StatusSeeOther, "/welcome?username="+username)
+	return c.Redirect(http.StatusSeeOther, "/welcome")
 }
 
 func (h *AuthHandler) HandleLogout(c echo.Context) error {

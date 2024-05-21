@@ -23,9 +23,9 @@ func main() {
 	articleService := &services.ArticleService{DB: database}
 	authService := &services.AuthService{DB: database}
 
-	articleHander := &handlers.ArticleHandler{ArticleService: articleService}
+	articleHandler := &handlers.ArticleHandler{ArticleService: articleService}
 	authHandler := &handlers.AuthHandler{AuthService: authService}
-	welcomeHandler := &handlers.WelcomeHander{}
+	welcomeHandler := &handlers.WelcomeHandler{}
 
 	e := echo.New()
 
@@ -43,14 +43,7 @@ func main() {
 
 	e.HTTPErrorHandler = handlers.CustomHTTPErrorHandler
 
-	e.GET("/", articleHander.HandleIndex)
-	e.GET("/article/:id", articleHander.HandleArticle)
-
-	e.GET("/login", authHandler.HandleLogin)
-	e.POST("/login", authHandler.HandleLoginSubmit)
-	e.GET("/logout", authHandler.HandleLogout)
-
-	e.GET("/welcome", welcomeHandler.HandleWelcome)
+	handlers.SetupRoutes(e, authHandler, articleHandler, welcomeHandler)
 
 	e.Static("/static", "static")
 
