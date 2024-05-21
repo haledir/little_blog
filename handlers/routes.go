@@ -12,7 +12,7 @@ func SetupRoutes(e *echo.Echo, authHandler *AuthHandler, articleHandler *Article
 	e.GET("/login", authHandler.HandleLogin)
 	e.POST("/login", authHandler.HandleLoginSubmit)
 
-	protectedGroup := e.Group("/protected", middleware.AuthMiddleware)
+	protectedGroup := e.Group("", middleware.AuthMiddleware)
 	protectedGroup.GET("/welcome", welcomeHandler.HandleWelcome)
-	protectedGroup.POST("/logout", authHandler.HandleLogout)
+	protectedGroup.GET("/logout", authHandler.HandleLogout)
 }
