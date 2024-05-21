@@ -13,7 +13,6 @@ import (
 )
 
 func main() {
-
 	database, err := db.InitDB("./local.db")
 	if err != nil {
 		log.Fatalf("Error initializing database: %v", err)
@@ -26,6 +25,7 @@ func main() {
 	articleHandler := &handlers.ArticleHandler{ArticleService: articleService}
 	authHandler := &handlers.AuthHandler{AuthService: authService}
 	welcomeHandler := &handlers.WelcomeHandler{}
+	editorHandler := &handlers.EditorHandler{ArticleService: articleService}
 
 	e := echo.New()
 
@@ -43,7 +43,7 @@ func main() {
 
 	e.HTTPErrorHandler = handlers.CustomHTTPErrorHandler
 
-	handlers.SetupRoutes(e, authHandler, articleHandler, welcomeHandler)
+	handlers.SetupRoutes(e, authHandler, articleHandler, welcomeHandler, editorHandler)
 
 	e.Static("/static", "static")
 

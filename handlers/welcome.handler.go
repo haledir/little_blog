@@ -24,3 +24,20 @@ func (h *WelcomeHandler) HandleWelcome(c echo.Context) error {
 		"Username": username,
 	})
 }
+
+func (h *WelcomeHandler) HandleDashboard(c echo.Context) error {
+	session, err := sessions.GetSession(c)
+	if err != nil {
+		return c.Redirect(http.StatusSeeOther, "/")
+	}
+
+	username := session.Values["username"]
+	if username == nil {
+		return c.Redirect(http.StatusSeeOther, "/")
+	}
+
+	return c.Render(http.StatusOK, "dashboard.html", map[string]interface{}{
+		"Title":    "Dashboard",
+		"Username": username,
+	})
+}

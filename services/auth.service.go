@@ -17,7 +17,7 @@ type AuthService struct {
 }
 
 func HashPassword(password string) (string, error) {
-	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
 	return string(bytes), err
 }
 
@@ -30,11 +30,11 @@ func (s *AuthService) AuthenticateUser(username, password string) (*User, error)
 	var user User
 	err := s.DB.QueryRow("select ID, USERNAME, PASSWORD from USERS where username = ?", username).Scan(&user.ID, &user.Username, &user.Password)
 	if err != nil {
-		return nil, errors.New("user and password combination does not exist")
+		return nil, errors.New("invalid username")
 	}
 
 	if !CheckPasswordHash(password, user.Password) {
-		return nil, errors.New("user and password combination does not exist")
+		return nil, errors.New("invalid password")
 	}
 	return &user, nil
 }

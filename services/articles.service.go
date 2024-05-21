@@ -47,3 +47,12 @@ func (s *ArticleService) GetArticleById(id int) (*Article, error) {
 
 	return &article, nil
 }
+
+func (s *ArticleService) CreateArticle(title, content string) error {
+	if s.DB == nil {
+		return errors.New("database connection is nil")
+	}
+
+	_, err := s.DB.Exec("insert into ARTICLES(TITLE, CONTENT) values(?, ?)", title, content)
+	return err
+}

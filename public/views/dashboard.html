@@ -1,0 +1,10 @@
+{{ template "core" . }}
+{{ template "header" . }}
+
+<h1>Dashboard of {{ .Username }}</h1>
+<p>Welcome to your Dashboard.</p>
+<ul>
+    <li><a href="/editor">New Article</a></li>
+</ul>
+
+{{ template "footer" . }}

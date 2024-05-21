@@ -22,15 +22,24 @@ func (h *AuthHandler) HandleLoginSubmit(c echo.Context) error {
 	username := c.FormValue("username")
 	password := c.FormValue("password")
 
-	user, err := h.AuthService.AuthenticateUser(username, password)
-	if err != nil {
+	result := make(chan bool)
+	go func() {
+		user, err := h.AuthService.AuthenticateUser(username, password)
+		if err != nil || user == nil {
+			result <- false
+			return
+		}
+		result <- true
+	}()
+
+	if !<-result {
 		return c.Render(http.StatusUnauthorized, "login.html", map[string]interface{}{
 			"Title":   "Login",
 			"Message": "Invalid username and/or password",
 		})
 	}
 
-	err = sessions.SetSessionValue(c, "username", user.Username)
+	err := sessions.SetSessionValue(c, "username", username)
 	if err != nil {
 		return err
 	}
